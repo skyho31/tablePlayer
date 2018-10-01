@@ -83,11 +83,16 @@ TablePlayer.prototype.show = function(){
   var self = this;
   
   this.render();
-  setInterval(function(){
+  this.setInterval = setInterval(function(){
     self.destroy();
     self.render();
   }, self.interval * 1000);
 };
+
+TablePlayer.prototype.remove = function(){
+  clearInterval(this.setInterval)
+  this.destroy();
+}
 
 TablePlayer.prototype.destroy = function(){
   this.tableContainer.remove();
