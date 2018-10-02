@@ -3,7 +3,7 @@
  * 
  * Author : Seonho Kim
  * version : es5
- * date : 2018.10.1
+ * date : 2018.10.2
  * description : interval 마디 일정 개수의 항목을 플레이하는 테이블 객체 생성
  * 
  * @param {node} $el 대상 Element Node
