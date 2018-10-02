@@ -25,16 +25,16 @@ var TablePlayer = (function () {
   }
 
   TablePlayer.prototype = (function () {
-    var _getPartialData = function (thisObj) {
-        var startIdx = (thisObj.curPage - 1) * thisObj.showCount;
-        var endIdx = thisObj.curPage < thisObj.maxPage ? thisObj.curPage * thisObj.showCount : thisObj.data.length;
+    var _getPartialData = function () {
+        var startIdx = (this.curPage - 1) * this.showCount;
+        var endIdx = this.curPage < this.maxPage ? this.curPage * this.showCount : this.data.length;
 
-        return thisObj.data.slice(startIdx, endIdx);
+        return this.data.slice(startIdx, endIdx);
       },
 
-      _createHead = function (thisObj) {
+      _createHead = function () {
         var tableHead = document.createElement('thead');
-        var headData = thisObj.head;
+        var headData = this.head;
         var innerData = '';
         for (var i = 0, len = headData.length; i < len; i++) {
           innerData += `<th scope="col">${headData[i]}</th>`;
@@ -44,16 +44,16 @@ var TablePlayer = (function () {
         return tableHead;
       },
 
-      _render = function (thisObj) {
-        var tableContainer = thisObj.tableContainer = document.createElement('table');
+      _render = function () {
+        var tableContainer = this.tableContainer = document.createElement('table');
         tableContainer.className = 'table table-striped table-sm deptable';
-        var tableHead = _createHead(thisObj);
-        var tableBody = _createBody(_getPartialData(thisObj));
+        var tableHead = _createHead.call(this);
+        var tableBody = _createBody.call(this, _getPartialData.call(this));
 
         tableContainer.appendChild(tableHead);
         tableContainer.appendChild(tableBody);
-        thisObj.$el.appendChild(tableContainer);
-        _goNextPage(thisObj);
+        this.$el.appendChild(tableContainer);
+        _goNextPage.call(this);
       },
 
       _createBody = function (partialData) {
@@ -73,30 +73,30 @@ var TablePlayer = (function () {
         return tableBody;
       },
 
-      _goNextPage = function (thisObj) {
-        if (thisObj.curPage < thisObj.maxPage) {
-          thisObj.curPage++;
+      _goNextPage = function () {
+        if (this.curPage < this.maxPage) {
+          this.curPage++;
         } else {
-          thisObj.curPage = 1;
+          this.curPage = 1;
         }
       },
 
-      _destroy = function (thisObj) {
-        thisObj.tableContainer.remove();
+      _destroy = function () {
+        this.tableContainer.remove();
       },
 
       show = function () {
         var self = this;
-        _render(this);
+        _render.call(this);
         this.setInterval = setInterval(function () {
-          _destroy(self);
-          _render(self);
+          _destroy.call(self);
+          _render.call(self);
         }, self.interval * 1000);
       },
 
       remove = function () {
         clearInterval(this.setInterval);
-        _destroy(this);
+        _destroy.call(this);
       }
 
     return {
